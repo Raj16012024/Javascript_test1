@@ -1,34 +1,26 @@
 const {Builder, By, Key, Until} = require('selenium-webdriver');
 const assert = require('assert');
 
-(async function logintestfunctionality() {
-        let driver = await new Builder().forBrowser('chrome').build();
-        try {
-            //Navigage to the homepage
-            await driver.get('example');
+(async function logintestfunctionality(){
+    let driver = await new Builder().forBrowser('chrome').build();
+    try {
 
-            // Test case 1:successful login
-            await driver.findElemet(By.id("username")).sendKeys('user');
-            await driver.findElemet(By.id("password")).sendKeys('password');
-            await driver.findElemet(By.id('login-button')).click();
+        // Navigage to the homepage
+        await driver.get('example');
 
-            // Message
-            await driver.wait(until.urlIs("webpage"), 10000);
-            let Welcome = await driver.findElemet(By.className('any')).getText()
-            assert.strictEqual(Welcome, 'actually expectted to see in the page', 'Test Case 1 passed');
+        // Test Case 1 : successful login with valid credentials
+        await driver.findElement(By.id('username')).sendKeys('user');
+        await driver.findElement(By.id('password')).sendKeys('pass');
+        await driver.findElement(By.id('login-button')).click();
 
+        // Welcome message
+        await driver.wait(until.urlIs('webpage'), 15000);
+        let welcome = await driver.findElement(By.className('title')).getText();
+        assert.strictEqual(welcome, 'expected', 'Test 1 Failed');
 
-        }
-        finally {
-            await driver.quit();
-        }
-})();
-
-
-
-
-
-
-
-
+        console.log('All test cases passed');
+    }
+    finally {
+        await driver.quit();}
+})
 
